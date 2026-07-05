@@ -1,0 +1,246 @@
+:root {
+  --color-bg: #f4f5f7;
+  --color-surface: #ffffff;
+  --color-text: #1a1a1a;
+  --color-muted: #6b7280;
+  --color-primary: #111827;
+  --color-primary-hover: #374151;
+  --color-border: #e5e7eb;
+  --color-danger: #dc2626;
+  --color-pending: #b45309;
+  --color-pending-bg: #fef3c7;
+  --color-progress: #1d4ed8;
+  --color-progress-bg: #dbeafe;
+  --color-completed: #15803d;
+  --color-completed-bg: #dcfce7;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+.container {
+  max-width: 720px;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 3rem;
+}
+
+.topbar {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.topbar nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+
+.topbar a {
+  color: #d1d5db;
+  text-decoration: none;
+  font-size: 0.9rem;
+}
+
+.topbar a:hover,
+.topbar a.active {
+  color: #fff;
+}
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.card-clickable {
+  cursor: pointer;
+  transition: box-shadow 0.15s;
+}
+
+.card-clickable:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.badge {
+  display: inline-block;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.badge-pending {
+  color: var(--color-pending);
+  background: var(--color-pending-bg);
+}
+
+.badge-in_progress {
+  color: var(--color-progress);
+  background: var(--color-progress-bg);
+}
+
+.badge-completed {
+  color: var(--color-completed);
+  background: var(--color-completed-bg);
+}
+
+.btn {
+  display: inline-block;
+  border: none;
+  border-radius: 8px;
+  padding: 0.55rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  background: var(--color-primary);
+  color: #fff;
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--color-primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--color-bg);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.field input,
+.field textarea,
+.field select {
+  padding: 0.55rem 0.7rem;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  background: var(--color-surface);
+}
+
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  outline: 2px solid var(--color-primary);
+  outline-offset: -1px;
+}
+
+.error {
+  color: var(--color-danger);
+  font-size: 0.9rem;
+  margin: 0.5rem 0;
+}
+
+.muted {
+  color: var(--color-muted);
+  font-size: 0.9rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.page-header h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+.trip-route {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  margin: 0.4rem 0;
+}
+
+.stars {
+  display: inline-flex;
+  gap: 0.15rem;
+  font-size: 1.5rem;
+}
+
+.stars button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: inherit;
+  padding: 0;
+  color: #d1d5db;
+}
+
+.stars button.on {
+  color: #f59e0b;
+}
+
+table.trips-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+table.trips-table th,
+table.trips-table td {
+  padding: 0.6rem 0.75rem;
+  text-align: left;
+  font-size: 0.9rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+table.trips-table th {
+  background: var(--color-bg);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-muted);
+}
+
+table.trips-table tr:last-child td {
+  border-bottom: none;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
