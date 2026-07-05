@@ -1,13 +1,62 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { login, register, getCurrentUser } from "../Services/authService";
+
+function extractErrorMessage(error: any): string {
+  const data = error?.response?.data;
+  if (data && typeof data === "object") {
+    if (typeof data.error === "string") {
+      return data.error;
+    }
+    // Errores de validación del backend: { campo: "mensaje", ... }
+    const messages = Object.values(data).filter(
+      (v): v is string => typeof v === "string"
+    );
+    if (messages.length > 0) {
+      return messages.join(" · ");
+    }
+  }
+  return "Ocurrió un error. Intenta nuevamente.";
+}
 
 function AuthPage() {
+  const navigate = useNavigate();
+
   const [isLogin, setIsLogin] = useState(true);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [role, setRole] = useState<"PASSENGER" | "DRIVER">("PASSENGER");
+
+  const handleSubmit = async (e: any) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      if (isLogin) {
+        await login({ email, password });
+      } else {
+        await register({ firstName, lastName, email, password, role });
+      }
+
+      const user = await getCurrentUser();
+
+      if (user.role === "DRIVER") {
+        navigate("/driver");
+      } else {
+        navigate("/passenger");
+      }
+    } catch (err) {
+      setError(extractErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div>
@@ -18,63 +67,50 @@ function AuthPage() {
 
       <hr />
 
-      <form>
+      {error && <p style={{ color: "red" }}>{error}</p>}
+
+      <form onSubmit={handleSubmit}>
         {!isLogin && (
           <>
-            <div>
-              <label>First Name</label>
-              <input
-                value={firstName}
-                onChange={(e) => setFirstName(e.target.value)}
-              />
-            </div>
+            <input
+              placeholder="First name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+            />
 
-            <div>
-              <label>Last Name</label>
-              <input
-                value={lastName}
-                onChange={(e) => setLastName(e.target.value)}
-              />
-            </div>
+            <input
+              placeholder="Last name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+            />
           </>
         )}
 
-        <div>
-          <label>Email</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
+        <input
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
 
-        <div>
-          <label>Password</label>
-          <input
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-        </div>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
 
         {!isLogin && (
-          <div>
-            <label>Role</label>
-
-            <select
-              value={role}
-              onChange={(e) =>
-                setRole(e.target.value as "PASSENGER" | "DRIVER")
-              }
-            >
-              <option value="PASSENGER">Passenger</option>
-              <option value="DRIVER">Driver</option>
-            </select>
-          </div>
+          <select
+            value={role}
+            onChange={(e) => setRole(e.target.value as "PASSENGER" | "DRIVER")}
+          >
+            <option value="PASSENGER">Passenger</option>
+            <option value="DRIVER">Driver</option>
+          </select>
         )}
 
-        <button type="submit">
-          {isLogin ? "Login" : "Register"}
+        <button type="submit" disabled={loading}>
+          {loading ? "Cargando..." : isLogin ? "Login" : "Register"}
         </button>
       </form>
     </div>
