@@ -1,41 +1,31 @@
-import React, { useState } from 'react';
-import Button from '../../shared/Button';
-import { completeTrip } from '../driverService';
+import React from 'react';
+import type { Trip } from '../../types';
+import Badge from '../../shared/Badge';
+import CompleteTripButton from './CompleteTripButton';
 
-interface CompleteTripButtonProps {
-  tripId: number;
-  onComplete?: () => void;   // callback opcional para refrescar o redirigir
+interface ActiveTripCardProps {
+  trip: Trip;
+  onComplete?: () => void;
 }
 
-const CompleteTripButton: React.FC<CompleteTripButtonProps> = ({ tripId, onComplete }) => {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-
-  const handleComplete = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      await completeTrip(tripId);
-      if (onComplete) onComplete();
-    } catch (err: any) {
-      setError(err.response?.data?.error || 'Error al completar el viaje');
-    } finally {
-      setLoading(false);
-    }
-  };
+const ActiveTripCard: React.FC<ActiveTripCardProps> = ({ trip, onComplete }) => {
+  const passenger = trip.passenger;
 
   return (
-    <div>
-      <Button
-        variant="success"
-        onClick={handleComplete}
-        disabled={loading}
-      >
-        {loading ? 'Completando...' : 'Completar viaje'}
-      </Button>
-      {error && <p className="text-red-500 text-sm mt-1">{error}</p>}
+    <div className="border-2 border-blue-500 rounded p-4 shadow-md mb-4 bg-blue-50">
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="font-bold text-lg">Viaje activo</p>
+          <p><span className="font-semibold">Origen:</span> {trip.pickupAddress}</p>
+          <p><span className="font-semibold">Destino:</span> {trip.dropoffAddress}</p>
+          <p><span className="font-semibold">Pasajero:</span> {passenger.firstName} {passenger.lastName}</p>
+          <p><span className="font-semibold">Estado:</span> <Badge status={trip.status} /></p>
+        </div>
+        {/* ✅ AQUÍ ESTÁ LA CORRECCIÓN: pasar tripId, NO trip */}
+        <CompleteTripButton tripId={trip.id} onComplete={onComplete} />
+      </div>
     </div>
   );
 };
 
-export default CompleteTripButton;
+export default ActiveTripCard;

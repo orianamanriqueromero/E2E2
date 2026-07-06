@@ -6,7 +6,7 @@ import PendingTripCard from '../components/PendingTripCard';
 import Loading from '../../shared/components/Loading';
 import ErrorMessage from '../../shared/components/ErrorMessage';
 import { Link } from 'react-router-dom';
-import MainLayout from '../../shared/layout/MainLayout';
+import MainLayout from '../../shared/layouts/MainLayout';
 
 const DriverDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -20,7 +20,6 @@ const DriverDashboard: React.FC = () => {
   } = useDriverTrips();
 
   const activeTrip = myTrips.find(t => t.status === 'IN_PROGRESS');
-  const completedTrips = myTrips.filter(t => t.status === 'COMPLETED');
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -49,8 +48,9 @@ const DriverDashboard: React.FC = () => {
         {/* Viaje activo */}
         {activeTrip ? (
           <div className="mb-6">
-            <ActiveTripCard trip={activeTrip} onComplete={fetchAll} />
-          </div>
+            <ActiveTripCard trip={activeTrip} onComplete={() => { void fetchAll(); }} />          
+              
+            </div>
         ) : (
           <div className="mb-6 p-4 bg-gray-100 rounded">
             <p>No tienes viajes en curso.</p>
