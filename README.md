@@ -1,6 +1,9 @@
 # React + TypeScript + Vite
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+Integrantes: 
+Rafaella Cano 
+Kiara Rojas 
+Oriana Manrique 
 
 Currently, two official plugins are available:
 
