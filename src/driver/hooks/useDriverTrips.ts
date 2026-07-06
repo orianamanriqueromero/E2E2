@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import * as driverService from '../driverService';
-import { Trip } from '../../types';
+import type { Trip } from '../../types';
 import { useAuth } from '../../auth/hooks/useAuth'; // Ajusta la ruta según tu AuthContext
 
 export const useDriverTrips = () => {

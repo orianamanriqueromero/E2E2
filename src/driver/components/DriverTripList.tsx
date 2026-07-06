@@ -1,6 +1,6 @@
 import React from 'react';
-import { Trip } from '../../types';
-import Badge from '../../shared/components/Badge';
+import type { Trip } from '../../types';
+import Badge from '../../shared/Badge';
 
 interface DriverTripListProps {
   trips: Trip[];

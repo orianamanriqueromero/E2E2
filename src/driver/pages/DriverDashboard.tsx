@@ -6,7 +6,7 @@ import PendingTripCard from '../components/PendingTripCard';
 import Loading from '../../shared/components/Loading';
 import ErrorMessage from '../../shared/components/ErrorMessage';
 import { Link } from 'react-router-dom';
-import MainLayout from '../../shared/layouts/MainLayout';
+import MainLayout from '../../shared/layout/MainLayout';
 
 const DriverDashboard: React.FC = () => {
   const { user } = useAuth();
@@ -16,18 +16,13 @@ const DriverDashboard: React.FC = () => {
     loading,
     error,
     acceptTrip,
-    completeTrip,
     fetchAll,
   } = useDriverTrips();
 
-  // Encontrar el viaje activo (IN_PROGRESS) del conductor
   const activeTrip = myTrips.find(t => t.status === 'IN_PROGRESS');
-
-  // Los viajes completados (para mostrar un resumen)
   const completedTrips = myTrips.filter(t => t.status === 'COMPLETED');
 
   useEffect(() => {
-    // Polling cada 5 segundos para actualizar el estado (opcional)
     const interval = setInterval(() => {
       fetchAll();
     }, 5000);
@@ -54,11 +49,7 @@ const DriverDashboard: React.FC = () => {
         {/* Viaje activo */}
         {activeTrip ? (
           <div className="mb-6">
-            <ActiveTripCard
-              trip={activeTrip}
-              onComplete={completeTrip}
-              loading={loading}
-            />
+            <ActiveTripCard trip={activeTrip} onComplete={fetchAll} />
           </div>
         ) : (
           <div className="mb-6 p-4 bg-gray-100 rounded">
@@ -83,7 +74,6 @@ const DriverDashboard: React.FC = () => {
           )}
         </div>
 
-        {/* Enlaces a otras secciones */}
         <div className="flex gap-4 mt-4">
           <Link to="/driver/history" className="text-blue-600 hover:underline">
             Ver historial completo

@@ -1,7 +1,7 @@
 import React from 'react';
-import { Trip } from '../../types';
-import Button from '../../shared/components/Button';
-import Badge from '../../shared/components/Badge';
+import type { Trip } from '../../types';
+import Button from '../../shared/Button';
+import Badge from '../../shared/Badge';
 
 interface PendingTripCardProps {
   trip: Trip;

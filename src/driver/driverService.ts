@@ -1,5 +1,5 @@
 import api from '../services/axios';
-import { Trip } from '../types';
+import type { Trip } from '../types';
 
 export const getPendingTrips = async (): Promise<Trip[]> => {
   const response = await api.get('/trips/pending');
