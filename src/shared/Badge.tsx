@@ -1,5 +1,5 @@
 import React from 'react';
-import type { TripStatus } from '../../types';
+import type { TripStatus } from '../types';
 
 interface BadgeProps {
   status: TripStatus;
