@@ -27,7 +27,6 @@ const CompleteTripButton: React.FC<CompleteTripButtonProps> = ({ tripId, onCompl
   return (
     <div>
       <Button
-        variant="success"
         onClick={handleComplete}
         disabled={loading}
       >

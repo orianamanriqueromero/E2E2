@@ -6,7 +6,7 @@ import type { Trip } from '../../types';
 import Loading from '../../shared/components/Loading';
 import ErrorMessage from '../../shared/components/ErrorMessage';
 import Badge from '../../shared/Badge';
-import MainLayout from '../../shared/layout/MainLayout';
+import MainLayout from '../../shared/layouts/MainLayout';
 import CompleteTripButton from '../components/CompleteTripButton';
 
 const DriverTripDetail: React.FC = () => {
