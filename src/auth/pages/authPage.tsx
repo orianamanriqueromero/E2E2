@@ -2,6 +2,10 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { login, register, getCurrentUser } from "../Services/authService";
 
+type AuthPageProps = {
+  onLogin?: () => void;
+};
+
 function extractErrorMessage(error: any): string {
   const data = error?.response?.data;
   if (data && typeof data === "object") {
@@ -19,7 +23,7 @@ function extractErrorMessage(error: any): string {
   return "Ocurrió un error. Intenta nuevamente.";
 }
 
-function AuthPage() {
+function AuthPage({ onLogin }: AuthPageProps) {
   const navigate = useNavigate();
 
   const [isLogin, setIsLogin] = useState(true);
@@ -45,12 +49,10 @@ function AuthPage() {
       }
 
       const user = await getCurrentUser();
+      const targetRoute = user.role === "DRIVER" ? "/driver" : "/passenger";
 
-      if (user.role === "DRIVER") {
-        navigate("/driver");
-      } else {
-        navigate("/passenger");
-      }
+      onLogin?.();
+      navigate(targetRoute, { replace: true });
     } catch (err) {
       setError(extractErrorMessage(err));
     } finally {
